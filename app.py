@@ -28,11 +28,11 @@ ______________________________________________________________________________
 # to remove any warning coming on streamlit web app page
 st.set_option('deprecation.showPyplotGlobalUse', False)
 # add app title
-st.set_page_config(
-    page_title="ماذا يقول عنك محرك البحث قوقل",
-    page_icon="✅",
-    layout="wide",
-)
+# st.set_page_config(
+#     page_title="ماذا يقول عنك محرك البحث قوقل",
+#     page_icon="✅",
+#     layout="wide",
+# )
 
 
 st.title("ابحث عنك في قوقل")
