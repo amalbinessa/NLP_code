@@ -7,7 +7,7 @@ import re
 import time  # to simulate a real time data, time loop
 import plotly.express as px  # interactive charts
 import matplotlib.pyplot as plt
-import arabic_ner
+#import arabic_ner
 from wordcloud import WordCloud
 from arabic_reshaper import arabic_reshaper
 from bidi.algorithm import get_display
