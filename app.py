@@ -7,7 +7,7 @@ import re
 import time  # to simulate a real time data, time loop
 import plotly.express as px  # interactive charts
 import matplotlib.pyplot as plt
-import arabic_NER
+import arabic_ner
 from wordcloud import WordCloud
 from arabic_reshaper import arabic_reshaper
 from bidi.algorithm import get_display
@@ -148,20 +148,20 @@ df =df.drop(columns=['splited_title', 'sub_link' , 'title_length' ])
 ##################################### NER ##################################
 
 
-def text_to_ner_model_line(text):
-  text = arabic_NER.get_ner(text)
-  return get_entity_key_value(text)
-def get_entity_key_value(text):
-  key__value_list_outer = []
-  for ner_ in text[0]:
-    for key , value in ner_.items():
-      if '-' in value:
-        #key_value_list_inner = [key,value]
-        key__value_list_outer.append(key)
+# def text_to_ner_model_line(text):
+#   text = arabic_NER.get_ner(text)
+#   return get_entity_key_value(text)
+# def get_entity_key_value(text):
+#   key__value_list_outer = []
+#   for ner_ in text[0]:
+#     for key , value in ner_.items():
+#       if '-' in value:
+#         #key_value_list_inner = [key,value]
+#         key__value_list_outer.append(key)
 
-  return key__value_list_outer
+#   return key__value_list_outer
 
-df['entity_list'] = [text_to_ner_model_line(text) for text in df['cleaned_title']]
+# df['entity_list'] = [text_to_ner_model_line(text) for text in df['cleaned_title']]
 
 
 
@@ -221,24 +221,24 @@ model_name='albert-base-v1'
 li_sentence = list(df['cleaned_title'])
 
 
-#Declare hyperparameters
-batch_size=2
-max_seq_length=64
-convert_to_numpy=False
-normalize_embeddings=False
-neighborhood_min_size=1
-cutoff_threshold=0.83
-kmeans_max_iter=100
-kmeans_random_state=42
-kmeans_no_clusters=6
+# #Declare hyperparameters
+# batch_size=2
+# max_seq_length=64
+# convert_to_numpy=False
+# normalize_embeddings=False
+# neighborhood_min_size=1
+# cutoff_threshold=0.83
+# kmeans_max_iter=100
+# kmeans_random_state=42
+# kmeans_no_clusters=6
 
 
-#Declare the methods : model_inference,neighborhood_detection,kmeans_detection,convert_to_df and plot_cluster with associated hyperparameters
-embeddings=cr.model_inference(li_sentence,batch_size,model_name,max_seq_length,normalize_embeddings,convert_to_numpy)
-#output_dict=cr.neighborhood_detection(li_sentence,embeddings,cutoff_threshold,neighborhood_min_size)
-output_kmeans_dict=cr.kmeans_detection(li_sentence,embeddings,kmeans_no_clusters,kmeans_max_iter,kmeans_random_state)
-#neighborhood_detection_df=cr.convert_to_df(output_dict)
-kmeans_df=cr.convert_to_df(output_kmeans_dict)
+# #Declare the methods : model_inference,neighborhood_detection,kmeans_detection,convert_to_df and plot_cluster with associated hyperparameters
+# embeddings=cr.model_inference(li_sentence,batch_size,model_name,max_seq_length,normalize_embeddings,convert_to_numpy)
+# #output_dict=cr.neighborhood_detection(li_sentence,embeddings,cutoff_threshold,neighborhood_min_size)
+# output_kmeans_dict=cr.kmeans_detection(li_sentence,embeddings,kmeans_no_clusters,kmeans_max_iter,kmeans_random_state)
+# #neighborhood_detection_df=cr.convert_to_df(output_dict)
+# kmeans_df=cr.convert_to_df(output_kmeans_dict)
 
 
 
@@ -267,42 +267,42 @@ def generate_wordcloud(df, cluster_num):
 
 ########################WC_FOR_CLUSTER###################################
 
-# fined number of clusters
-kmeans_clusters_list = kmeans_df.Cluster.unique()
-#neighborhood_detection_clusters_list = neighborhood_detection_df.Cluster.unique()
+# # fined number of clusters
+# kmeans_clusters_list = kmeans_df.Cluster.unique()
+# #neighborhood_detection_clusters_list = neighborhood_detection_df.Cluster.unique()
 
 
 
-# cluster result in kmeans
-st. markdown("""
-____________________ تجميع عناوين نتائج البحث حسب تشابة سياقها __________________________________________________________
-""")
-# nsert containers laid out as side-by-side columns.
-col1, col2, col3 = st.columns(3)
+# # cluster result in kmeans
+# st. markdown("""
+# ____________________ تجميع عناوين نتائج البحث حسب تشابة سياقها __________________________________________________________
+# """)
+# # nsert containers laid out as side-by-side columns.
+# col1, col2, col3 = st.columns(3)
 
-for  index , cluster_num in enumerate(kmeans_clusters_list):
-  # group df based on cluster filter :
-  wordcloud_result =generate_wordcloud(kmeans_df,cluster_num)
+# for  index , cluster_num in enumerate(kmeans_clusters_list):
+#   # group df based on cluster filter :
+#   wordcloud_result =generate_wordcloud(kmeans_df,cluster_num)
    
-  new_index = index + 1 
-  if index == 1 :
-    with col1:
-        st.header(f'Topic {index} Words :\n ')
-        st.image(wordcloud_result.to_array())
-    st. markdown("""
-______________________________________________________________________________
-""")
-  if index == 2 :
-    with col1:
-        st.header(f'Topic {index} Words :\n ')
-        st.image(wordcloud_result.to_array())
-    st. markdown("""
-______________________________________________________________________________
-""")
-  if index == 3 :
-    with col1:
-        st.header(f'Topic {index} Words :\n ')
-        st.image(wordcloud_result.to_array())
+#   new_index = index + 1 
+#   if index == 1 :
+#     with col1:
+#         st.header(f'Topic {index} Words :\n ')
+#         st.image(wordcloud_result.to_array())
+#     st. markdown("""
+# ______________________________________________________________________________
+# """)
+#   if index == 2 :
+#     with col1:
+#         st.header(f'Topic {index} Words :\n ')
+#         st.image(wordcloud_result.to_array())
+#     st. markdown("""
+# ______________________________________________________________________________
+# """)
+#   if index == 3 :
+#     with col1:
+#         st.header(f'Topic {index} Words :\n ')
+#         st.image(wordcloud_result.to_array())
 st. markdown("""
 __________________________* ** جميع الحقوق محفوظة@امل بن عيسى **____________________________________________________
 """)
