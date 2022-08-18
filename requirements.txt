@@ -13,4 +13,4 @@ nltk
 wordcloud
 arabic_reshaper
 python-bidi
-ClusterTransformer
+#ClusterTransformer
