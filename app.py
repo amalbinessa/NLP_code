@@ -35,7 +35,7 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 # )
 
 
-st.title("ابحث عنك في قوقل")
+st.header("ماذا يقول عنك محرك البحث قوقل")
 st.sidebar.header("اكتب الكلمات")
 query = st.sidebar.text_input('  اضف/ـي كلمات البحث , مثال :شركة ثقة لخدمات الأعمال ')
 
@@ -304,5 +304,5 @@ def generate_wordcloud(df, cluster_num):
 #         st.header(f'Topic {index} Words :\n ')
 #         st.image(wordcloud_result.to_array())
 st. markdown("""
-__________________________* ** جميع الحقوق محفوظة@امل بن عيسى **____________________________________________________
+** جميع الحقوق محفوظة@امل بن عيسى **
 """)
